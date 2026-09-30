@@ -14,6 +14,19 @@ def ago(date):
     """
         Calculate a '3 hours ago' type string from a python datetime.
     """
+    if date is None:
+        return "Recently"
+    if isinstance(date, str):
+        try:
+            date = datetime.datetime.strptime(date.split('.')[0], "%Y-%m-%d %H:%M:%S")
+        except Exception:
+            try:
+                date = datetime.datetime.strptime(date, "%Y-%m-%d")
+            except Exception:
+                return str(date)
     now = datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4)
 
-    return (timeago.format(date, now)) # will print x secs/hours/minutes ago
+    try:
+        return timeago.format(date, now)
+    except Exception:
+        return str(date)
