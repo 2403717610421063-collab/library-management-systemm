@@ -1,4 +1,8 @@
-from flask import Flask, g, escape, session, redirect, render_template, request, jsonify, Response
+from flask import Flask, g, session, redirect, render_template, request, jsonify, Response
+try:
+    from markupsafe import escape
+except ImportError:
+    from html import escape
 from Misc.functions import *
 
 app = Flask(__name__)

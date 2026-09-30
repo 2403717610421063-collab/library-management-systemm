@@ -1,4 +1,8 @@
-from flask import Blueprint, g, escape, session, redirect, render_template, request, jsonify, Response
+from flask import Blueprint, g, session, redirect, render_template, request, jsonify, Response
+try:
+    from markupsafe import escape
+except ImportError:
+    from html import escape
 from app import DAO
 from Misc.functions import *
 

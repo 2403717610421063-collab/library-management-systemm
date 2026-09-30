@@ -1,4 +1,8 @@
-from flask import Blueprint, g, escape, session, redirect, render_template, request, jsonify, Response
+from flask import Blueprint, g, session, redirect, render_template, request, jsonify, Response
+try:
+    from markupsafe import escape
+except ImportError:
+    from html import escape
 from app import DAO
 
 from Controllers.UserManager import UserManager
@@ -20,9 +24,11 @@ def home(id):
 		print('----------------------------')
 		print(b)
 
-		user_books={}
+		user_books=[]
 		if user_manager.user.isLoggedIn():
-			user_books = book_manager.getReserverdBooksByUser(user_id=user_manager.user.uid())['user_books'].split(',')
+			reserved_books = book_manager.getReserverdBooksByUser(user_id=user_manager.user.uid())
+			if reserved_books is not None and 'user_books' in reserved_books and reserved_books['user_books']:
+				user_books = reserved_books['user_books'].split(',')
 		
 		if b and len(b) <1:
 			return render_template('book_view.html', error="No book found!")
