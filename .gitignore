@@ -1,0 +1,9 @@
+.fuse*
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.env
+venv/
+.venv/
+__*__
